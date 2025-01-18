@@ -1,6 +1,8 @@
 import os
 import random
+from requests_ip_rotator import ApiGateway
 from utils import print_info, print_success, print_error
+from config import get_s3_key, get_s3_secret
 from instaloader import Instaloader, Profile, Post
 
 class Instagram:
@@ -63,11 +65,16 @@ class Instagram:
     def get_posts(self, data):
         # data: {type: ..., url: ..., username: ..., first_n_posts: ..., random_n_posts: ...}
         
+        gateway = ApiGateway("https://i.instagram.com", access_key_id=get_s3_key(), access_key_secret=get_s3_secret())
+        gateway.start()
+        self._instaloader.context._session.mount("https://i.instagram.com", gateway)
         if data['type'] == 'url':
             posts = self.get_posts_from_url(data['urls'])
-            return self.download_posts(posts)
         elif data['type'] == 'profile':
             posts = self.get_random_n_posts(self.get_profile(data['username']), data['first_n_posts'], data['random_n_posts'])
-            return self.download_posts(posts)
         else:
             return []
+        
+        result = self.download_posts(posts)
+        gateway.shutdown()
+        return result

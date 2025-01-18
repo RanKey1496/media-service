@@ -23,7 +23,7 @@ class Main:
             utils.print_info("Downloading media from Instagram...")
             outputs = self._instagram.get_posts(data['data'])
             filepaths = self._s3.upload_files(data['id'], outputs, get_s3_bucket())
-            [shutil.rmtree(os.path.join('media', os.path.dirname(file))) for file in outputs if os.path.exists(file)]
+            [shutil.rmtree(os.path.dirname(file)) for file in outputs if os.path.exists(file)]
             await self.job_media_completed_publisher(data['id'], filepaths)
         
         if data['source'] == 'youtube':

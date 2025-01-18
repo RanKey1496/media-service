@@ -31,9 +31,10 @@ class Main:
             pass
         
     async def job_media_completed_publisher(self, id, filepaths):
-        utils.print_info("Publishing media completed...")
+        utils.print_info(f"Publishing media completed {id}...")
         data = json.dumps({"id": id, "media": filepaths}).encode()
         await self._nats.publish("job.media.completed", data)
+        utils.print_info(f"Media completed published {id}...")
     
     async def run(self):
         await self._nats.connect(get_nats_url())

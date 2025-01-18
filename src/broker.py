@@ -4,10 +4,10 @@ import json
 
 async def main():
     try:
-        nc = await nats.connect("nats://127.0.0.1:4222")
+        nc = await nats.connect("nats://82.197.65.146:4222")
 
         
-        data = {"id": 2, "source": "instagram", "data": {"type": "url", "urls": [
+        data = {"id": 1, "source": "instagram", "data": {"type": "url", "urls": [
             "https://www.instagram.com/reel/DEkG_ZnOKdk/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
             "https://www.instagram.com/reel/DEPpicXx96f/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
             "https://www.instagram.com/reel/DEM4lCHO1XI/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="

@@ -6,7 +6,7 @@ from instaloader import Instaloader, Profile, Post
 class Instagram:
     
     def __init__(self):
-        self._instaloader = Instaloader(dirname_pattern='videos/{profile}/{target}', filename_pattern='{target}')
+        self._instaloader = Instaloader(dirname_pattern='media/{profile}/{target}', filename_pattern='{target}')
     
     def get_profile(self, username):
         return Profile.from_username(self._instaloader.context, username)
@@ -16,7 +16,7 @@ class Instagram:
         for post in posts:
             output = f'{post.shortcode}'
             self._instaloader.download_post(post, target=output)
-            filepaths.append(os.path.join('videos', post.profile, output, output + '.mp4'))
+            filepaths.append(os.path.join('media', post.profile, output, output + '.mp4'))
         return filepaths
     
     def get_random_n_posts(self, profile, first_n_posts=10, random_n_posts=5):

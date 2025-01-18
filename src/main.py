@@ -23,7 +23,7 @@ class Main:
             utils.print_info("Downloading media from Instagram...")
             outputs = self._instagram.get_posts(data['data'])
             filepaths = self._s3.upload_files(data['id'], outputs, get_s3_bucket())
-            [shutil.rmtree(os.path.join('videos', file.split("\\")[1])) for file in outputs if os.path.exists(file)]
+            [shutil.rmtree(os.path.join('media', file.split("\\")[1])) for file in outputs if os.path.exists(file)]
             await self.job_media_completed_publisher(data['id'], filepaths)
         
         if data['source'] == 'youtube':
@@ -31,7 +31,7 @@ class Main:
             pass
         
     async def job_media_completed_publisher(self, id, filepaths):
-        data = json.dumps({"id": id, "videos": filepaths}).encode()
+        data = json.dumps({"id": id, "media": filepaths}).encode()
         await self._nats.publish("job.media.completed", data)
     
     async def run(self):
